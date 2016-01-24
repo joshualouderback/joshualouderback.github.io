@@ -1,8 +1,8 @@
 # Site wide configuration
 
-title:            Site Title
+title:            Joshua Louderback
 locale:           en_US
-url:
+url:		  joshualouderback.com
 
 
 # Jekyll configuration
@@ -40,13 +40,13 @@ titlecase: true
 
 # Site owner
 owner:
-  name: Your Name
+  name: Joshua Louderback
   avatar: bio-photo.jpg
-  bio: "Describe your self."
-  email:
+  bio: "BSCS Junior Student At DigiPen Focusing On Tools And Systems Programming."
+  email: joshlouderback@gmail.com
   disqus-shortname:
-  twitter: #username
-  facebook: #username
+  twitter: joshlouderback
+  facebook: joshua.louderback
   google:
     plus: #username
     analytics:
@@ -54,9 +54,9 @@ owner:
     ad-client:
     ad-slot:
   bing-verify:
-  github: #username
+  github: joshualouderback
   stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
-  linkedin: #username
+  linkedin: joshualouderback #username
   xing: #username
   instagram: #username
   lastfm: #username
