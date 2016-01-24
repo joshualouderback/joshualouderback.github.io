@@ -1,25 +1,17 @@
 ---
 layout: page
-title: About the Theme
+title: About Me
 tags: [about, Jekyll, theme, responsive]
 modified: 2014-08-08T20:53:07.573882-04:00
-comments: true
-image:
-  feature: sample-image-2.jpg
-  credit: WeGraphics
-  creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
 
-Minimal Mistakes is responsive Jekyll theme with large featured images and solid typography. As the name implies the styling is fairly minimal to make it easier for you to build on top of.
+Hello there! My name is Joshua Louderback and currently I am enrolled in _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ degree at DigiPen Institute Of Technology. Here are some of the current major highlights in my life:
 
-## Minimal Mistakes is all about:
+* Currently in the middle of my last semester as a Junior!
+* Expecting to graduate in Decemeber 2016, if I get a summer internship.
+* Working on a HTC Vive VR project in Unity for my student project as Technical Director.
 
-* Responsive templates. Looking good on mobile, tablet, and desktop.
-* Gracefully degrading in older browsers. Compatible with Internet Explorer 8+ and all modern browsers.
-* Minimal embellishments -- content first.
-* Optional large feature images for posts and pages.
-* Simple and clear permalink structure.
-* [Custom 404 page](http://mmistakes.github.io/minimal-mistakes/404.html) to get you started.
-* Support for Disqus Comments
+###My Passion
 
-<a markdown="0" href="{{ site.url }}/theme-setup" class="btn">Install Minimal Mistakes Theme</a>
+​I love video games and I love creating them. One of the most meaningful things to me is being able to do things for the team that helps elevate their work to the next level. When they can create something faster and/or better because of my contributions, I feel accomplished. This is why my passion falls into building tools and systems that help teammates achieve their goals. I believe great games come from what the designers, artist and musicians build and bring together. Being part of this cycle of helping them translate their ideas and creations into this digital world makes my job incredibly rewarding and fun.
+

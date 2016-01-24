@@ -2,7 +2,7 @@
 
 title:            Joshua Louderback
 locale:           en_US
-url:		  joshualouderback.com
+url:
 
 
 # Jekyll configuration
@@ -42,11 +42,11 @@ titlecase: true
 owner:
   name: Joshua Louderback
   avatar: bio-photo.jpg
-  bio: "BSCS Junior Student At DigiPen Focusing On Tools And Systems Programming."
+  bio: "Junior BSCS RTIS At DigiPen. Tools And Systems Programmer."
   email: joshlouderback@gmail.com
   disqus-shortname:
   twitter: joshlouderback
-  facebook: joshua.louderback
+  facebook: #username
   google:
     plus: #username
     analytics:
@@ -56,7 +56,7 @@ owner:
   bing-verify:
   github: joshualouderback
   stackoverflow: #123456/username   from a "http://stackoverflow.com/users/123456/username" link
-  linkedin: joshualouderback #username
+  linkedin: joshualouderback
   xing: #username
   instagram: #username
   lastfm: #username
