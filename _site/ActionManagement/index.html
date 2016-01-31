@@ -1,0 +1,308 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Action Management (Part 2) &#8211; Joshua Louderback</title>
+<meta name="description" content="Sequences and Groups.">
+<meta name="keywords" content="Unity, Action, Actions, Sequences, Groups, Programming, Tips">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Action Management (Part 2)">
+<meta name="twitter:description" content="Sequences and Groups.">
+<meta name="twitter:site" content="@joshlouderback">
+<meta name="twitter:creator" content="@joshlouderback">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/default-thumb.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Action Management (Part 2)">
+<meta property="og:description" content="Sequences and Groups.">
+<meta property="og:url" content="/ActionManagement/">
+<meta property="og:site_name" content="Joshua Louderback">
+
+<meta property="og:image" content="/images/default-thumb.png">
+
+
+
+
+
+
+<link rel="canonical" href="/ActionManagement/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Joshua Louderback Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Joshua Louderback</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				        
+				    
+				    <li><a href="/projects/" >Projects</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/posts/" >Blog</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/resume/" >Resume</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpg" class="bio-photo" alt="Joshua Louderback bio photo">
+
+
+  <h3 itemprop="name">Joshua Louderback</h3>
+  <p>Junior BSCS RTIS At DigiPen. Tools And Systems Programmer.</p>
+  <a href="mailto:joshlouderback@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  <a href="http://twitter.com/joshlouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+  
+  
+  <a href="http://linkedin.com/in/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+  
+  
+  
+  <a href="http://github.com/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/ActionManagement/" rel="bookmark" title="Action Management (Part 2)">Action Management (Part 2)</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <h3 id="management">Management:</h3>
+
+<p>When I approached implementing actions one of the biggest things I wanted was self-management. I didn’t want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whoever cares about. This way if they care to pause or cancel it they don’t need to go looking for it. Also since actions are bound to objects, if you don’t want an action to persist attach to it to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions, for example a boss attack sequence will automatically end when the boss is destroyed. Lastly, with the benefit of using coroutines we don’t need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action itself manage it. And due to the nature of how actions are structured, which we will get into below, the main “managers” of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is such a logical direction to go. Now onto the first and major “manager” of actions, sequences!</p>
+
+<h3 id="sequences">Sequences:</h3>
+
+<p>Sequences are the main “manager” of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as queue since it has all the properties of a sequence:</p>
+
+<ul>
+  <li>First in first out, which maintains our order.</li>
+  <li>Front access only, therefore we can’t update next action until front is done and removed.</li>
+</ul>
+
+<p>With something to manage the order of our actions and when to notify the next action, we have basically stripped out all of the annoyances of writing what we used to call “simple code”. We can really call it “simple code” now that we only have to focus on what the logic is.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionSequence</span> <span class="p">:</span> <span class="n">Action</span>
+<span class="p">{</span>
+  <span class="c1">// The sequence of actions, placed in queue to maintain FIFO</span>
+  <span class="k">private</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;</span> <span class="n">sequence</span> <span class="p">=</span> <span class="k">new</span> <span class="n">Queue</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;();</span>
+
+  <span class="c1">// Constructor binding the sequence to a game object</span>
+  <span class="k">public</span> <span class="nf">ActionSequence</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">target</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Sequence&#39;s parents should always start as themselves</span>
+    <span class="n">parent_</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+
+    <span class="c1">// If target is specified</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Get action component</span>
+      <span class="kt">var</span> <span class="n">actions</span> <span class="p">=</span> <span class="n">target</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Actions</span><span class="p">&gt;();</span>
+      <span class="c1">// If the has it attach our target to it</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">actions</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="n">target_</span> <span class="p">=</span> <span class="n">actions</span><span class="p">;</span>
+      <span class="k">else</span> <span class="c1">// Otherwise add it ourselves and attach</span>
+        <span class="n">target_</span> <span class="p">=</span> <span class="n">target</span><span class="p">.</span><span class="n">AddComponent</span><span class="p">&lt;</span><span class="n">Actions</span><span class="p">&gt;();</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="c1">// Otherwise use singleton</span>
+    <span class="p">{</span>
+      <span class="n">target_</span> <span class="p">=</span> <span class="n">Singleton</span><span class="p">&lt;</span><span class="n">Actions</span><span class="p">&gt;.</span><span class="n">Instance</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Add function to allow users to add any action type to queue	</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Parent the action to this sequence</span>
+    <span class="n">action</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+
+    <span class="c1">// Place action in queue</span>
+    <span class="n">sequence</span><span class="p">.</span><span class="n">Enqueue</span><span class="p">(</span><span class="n">action</span><span class="p">);</span>
+
+    <span class="c1">// If this is our first action, activate sequence coroutine</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">1</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">routine_</span> <span class="p">=</span> <span class="n">target_</span><span class="p">.</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">Update</span><span class="p">());</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Coroutine for updating sequences</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerator</span> <span class="nf">Update</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// We have started running</span>
+    <span class="n">running_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// While there are actions to update, update them</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Get the current action, so we can update it</span>
+      <span class="n">Action</span> <span class="n">action</span> <span class="p">=</span> <span class="n">sequence</span><span class="p">.</span><span class="n">Peek</span><span class="p">();</span>
+
+      <span class="c1">// If we are paused yield until unpaused</span>
+      <span class="k">while</span><span class="p">(</span><span class="n">IsPaused</span><span class="p">())</span>
+        <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+
+      <span class="c1">// Call the action once, then wait until it is completed</span>
+      <span class="k">while</span><span class="p">(!</span><span class="n">action</span><span class="p">.</span><span class="n">IsCompleted</span><span class="p">())</span>
+      <span class="p">{</span>	
+        <span class="c1">// If action isn&#39;t already running, start it</span>
+        <span class="k">if</span><span class="p">(!</span><span class="n">action</span><span class="p">.</span><span class="n">IsRunning</span><span class="p">())</span>
+          <span class="c1">// Yield until the action we started finishes</span>
+          <span class="k">yield</span> <span class="k">return</span> <span class="n">action</span><span class="p">.</span><span class="n">StartAction</span><span class="p">();</span>
+      <span class="p">}</span>
+
+      <span class="c1">// Remove the current action</span>
+      <span class="n">sequence</span><span class="p">.</span><span class="n">Dequeue</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Complete, break yielding</span>
+    <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>In the update of a sequence is really when we start utilizing all the capabilites of coroutine to our advantage. A coroutine will maintain all of the data that was on the stack before we yielded, this way when we return all of the data we had before is still here. The while loop wrapped around our action.StartAction() is purely there to take advantage of this. After the started action is completed we will return to while(!action.IsCompleted()) and we will immediately break out of the loop, and remove our action. We technically bypass two unneccessary operations getting the action and checking if it is paused. As you hopefully can start to see you can really start extending this capability to far more complex logic and gain even more of an optimization.</p>
+
+<h3 id="groups">Groups</h3>
+
+<p>Coming soon…</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/ActionManagement/" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/ActionManagement/" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/ActionManagement/" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Action Management (Part 2)</strong> was published on <time datetime="2016-01-29T00:00:00-08:00">January 29, 2016</time> and last modified on <time datetime="2016-01-30">January 30, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/ActionFoundation/" title="Foundation of Actions! (Part 1)">Foundation of Actions! (Part 1)</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>&copy; 2016 Joshua Louderback. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>
