@@ -9,7 +9,7 @@ comments: true
 #  feature: sample-image-5.jpg
 ---
 
-###What are _Actions_?
+### What are _Actions_? ###
 
 An action can be thought of as an objective. For example say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we want to warn the players a "Warning Dialogue"? Now say we want the lights in the room the player is in to fade to black and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events like these simplier and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
 
@@ -19,7 +19,7 @@ _*Note\: that this entire article is based on using C# and Unity 5, but the same
 
 ---
 
-### Base Action
+### Base Action ###
 
 An action is too generic to describe, but all actions will have a lot of the same under the hood. These are things like\:
 
@@ -89,7 +89,7 @@ public abstract class Action
 
 ---
 
-###Coroutines\:
+### Coroutines\: ###
 
 Before we can dive into how each type of action works, we are going to need to understand coroutines. Unity defines it as a function that can suspend its execution, this is known as yielding, until the given YieldInstruction is finished. Since a coroutine can suspend its execution, it means you can have that function run over multiple frames. Coroutines are the foundation of actions. Let us look look at our example of an asteroid traveling from a to b, normally we would write the component like this:
 

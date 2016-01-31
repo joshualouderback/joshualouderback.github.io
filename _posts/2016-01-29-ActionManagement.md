@@ -9,11 +9,11 @@ comments: true
 #  feature: sample-image-5.jpg
 ---
 
-###Management\:
+### Management\: ###
 
 When I approached implementing actions one of the biggest things I wanted was self-management. I didn't want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whoever cares about. This way if they care to pause or cancel it they don't need to go looking for it. Also since actions are bound to objects, if you don't want an action to persist attach to it to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions, for example a boss attack sequence will automatically end when the boss is destroyed. Lastly, with the benefit of using coroutines we don't need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action itself manage it. And due to the nature of how actions are structured, which we will get into below, the main "managers" of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is such a logical direction to go. Now onto the first and major "manager" of actions, sequences!
 
-###Sequences\: 
+### Sequences\: ###
 
 Sequences are the main "manager" of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as queue since it has all the properties of a sequence: 
 
@@ -105,6 +105,6 @@ public class ActionSequence : Action
 In the update of a sequence is really when we start utilizing all the capabilites of coroutine to our advantage. A coroutine will maintain all of the data that was on the stack before we yielded, this way when we return all of the data we had before is still here. The while loop wrapped around our action.StartAction() is purely there to take advantage of this. After the started action is completed we will return to while(!action.IsCompleted()) and we will immediately break out of the loop, and remove our action. We technically bypass two unneccessary operations getting the action and checking if it is paused. As you hopefully can start to see you can really start extending this capability to far more complex logic and gain even more of an optimization.
 
 
-### Groups
+### Groups ###
 
 Coming soon...
