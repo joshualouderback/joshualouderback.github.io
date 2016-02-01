@@ -154,15 +154,15 @@
     <div class="article-wrap">
       <h3 id="management">Management:</h3>
 
-<p>When I approached implementing actions one of the biggest things I wanted was self-management. I didn’t want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whoever cares about. This way if they care to pause or cancel it they don’t need to go looking for it. Also since actions are bound to objects, if you don’t want an action to persist attach to it to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions, for example a boss attack sequence will automatically end when the boss is destroyed. Lastly, with the benefit of using coroutines we don’t need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action itself manage it. And due to the nature of how actions are structured, which we will get into below, the main “managers” of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is such a logical direction to go. Now onto the first and major “manager” of actions, sequences!</p>
+<p>When I approached implementing actions, one of the biggest things I wanted was self-management. I didn’t want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whatever object cares about it. This way if they care to pause or cancel it they don’t need to go looking for it. Also, since actions are bound to objects, if you don’t want an action to persist, then attach to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions. For example, a boss’s attack sequence will automatically end when the boss is destroyed. Lastly, one the benefits of using coroutines is that we don’t need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action manage itself. And due to the nature of how actions are structured, which we will get into below, the main “managers” of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is a logical direction to go. Now onto the first and major “manager” of actions, sequences!</p>
 
 <h3 id="sequences">Sequences:</h3>
 
-<p>Sequences are the main “manager” of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as queue since it has all the properties of a sequence:</p>
+<p>Sequences are the main “manager” of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as a queue, since it has all the properties of a sequence:</p>
 
 <ul>
   <li>First in first out, which maintains our order.</li>
-  <li>Front access only, therefore we can’t update next action until front is done and removed.</li>
+  <li>Front access only, therefore we can’t update the next action until the front is done and removed.</li>
 </ul>
 
 <p>With something to manage the order of our actions and when to notify the next action, we have basically stripped out all of the annoyances of writing what we used to call “simple code”. We can really call it “simple code” now that we only have to focus on what the logic is.</p>
@@ -183,7 +183,7 @@
     <span class="p">{</span>
       <span class="c1">// Get action component</span>
       <span class="kt">var</span> <span class="n">actions</span> <span class="p">=</span> <span class="n">target</span><span class="p">.</span><span class="n">GetComponent</span><span class="p">&lt;</span><span class="n">Actions</span><span class="p">&gt;();</span>
-      <span class="c1">// If the has it attach our target to it</span>
+      <span class="c1">// If the target has our component, attach a reference</span>
       <span class="k">if</span><span class="p">(</span><span class="n">actions</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
         <span class="n">target_</span> <span class="p">=</span> <span class="n">actions</span><span class="p">;</span>
       <span class="k">else</span> <span class="c1">// Otherwise add it ourselves and attach</span>
@@ -245,7 +245,7 @@
   <span class="p">}</span>
 <span class="p">}</span></code></pre></div>
 
-<p>In the update of a sequence is really when we start utilizing all the capabilites of coroutine to our advantage. A coroutine will maintain all of the data that was on the stack before we yielded, this way when we return all of the data we had before is still here. The while loop wrapped around our action.StartAction() is purely there to take advantage of this. After the started action is completed we will return to while(!action.IsCompleted()) and we will immediately break out of the loop, and remove our action. We technically bypass two unneccessary operations getting the action and checking if it is paused. As you hopefully can start to see you can really start extending this capability to far more complex logic and gain even more of an optimization.</p>
+<p>In the update of a sequence is when we really start utilizing all the capabilites of coroutines to our advantage. A coroutine will maintain all of the data that was on the stack before we yielded, this way when we return, all of the data we had before is still here. The while loop wrapped around our action.StartAction() is purely there to take advantage of this. After the started action is completed we will return to while(!action.IsCompleted()) and we will immediately break out of the loop, and remove our action. We technically bypass two unneccessary operations, getting the action, and checking if it is paused. As you hopefully can start to see, you can really start extending this capability to far more complex logic gaining even more of an optimization.</p>
 
 <h3 id="groups">Groups</h3>
 

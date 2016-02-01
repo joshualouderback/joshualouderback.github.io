@@ -11,7 +11,7 @@ comments: true
 
 ### What are _Actions_? ###
 
-An action can be thought of as an objective. For example say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we want to warn the players a "Warning Dialogue"? Now say we want the lights in the room the player is in to fade to black and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events like these simplier and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
+An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we want to warn the players with a "Warning Dialogue"? Now, say we want the lights in the room the player is in to fade to black, and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
 
 >
 
@@ -21,19 +21,19 @@ _*Note\: that this entire article is based on using C# and Unity 5, but the same
 
 ### Base Action ###
 
-An action is too generic to describe, but all actions will have a lot of the same under the hood. These are things like\:
+An action is too generic to describe, but all actions will have a lot of the same foundation under the hood. These are things like\:
 
-* Update-able, but they will most likely update differently.
+* Update-able, but each action will update differently.
 * Can be paused and resumed.
 * Or they can even be outright canceled.
 * They manage themselves, so they need to keep track of themselves.
 * Actions are hierarchical, so they look to their parents for info.
 
-So in that case we need an abstract class that our all our different actions can build from. I also wanted to give you some context to what an action is comprised of, since everything builds from here on out. 
+So in that case, we need an abstract class that our all our different actions can build from. I also wanted to give you some context as to what an action is comprised of, since everything builds on this from here on out. 
 
 >
 
-_*Note\: The code blocks are formmated to condense minor sections and reduce page length._
+_*Note\: The code blocks are formatted to condense minor sections and reduce page length._
 
 {% highlight c# %}
 public abstract class Action
@@ -91,7 +91,7 @@ public abstract class Action
 
 ### Coroutines\: ###
 
-Before we can dive into how each type of action works, we are going to need to understand coroutines. Unity defines it as a function that can suspend its execution, this is known as yielding, until the given YieldInstruction is finished. Since a coroutine can suspend its execution, it means you can have that function run over multiple frames. Coroutines are the foundation of actions. Let us look look at our example of an asteroid traveling from a to b, normally we would write the component like this:
+Before we can dive into how each type of action works, we are going to need to understand coroutines. Unity defines a coroutine as a function that can suspend its execution (this is known as yielding) until the given YieldInstruction is finished. Since a coroutine can suspend its execution, it means you can have that function run over multiple frames. Coroutines are the foundation of actions. Let us look look at our example of an asteroid traveling from a to b. Normally we would write the component like this:
 
 {% highlight c# %}
 public class AsteroidMover : MonoBehaviour {
@@ -113,12 +113,11 @@ public class AsteroidMover : MonoBehaviour {
 
 There are a few annoyances that come up\:
 
-* Once this is done lerping we are wasting an update call, unless we destroyed this object or component.
+* Once this is done lerping, we are wasting an update call unless we destroyed this object or component.
 * How will we tell this object to start interpolating if it isn't suppose to start right away?
-* If we want something to happen next, we need some way of communicating this is done and that it only tells it once.
+* How do we communicate the current action is complete and we want to start the next one without sending multiple signals?
 
-Now trying to do this simple thing ends up creating little problems that we are going to have to handle. Well this is why actions are awesome because they will remove these little problems and let you do these simple things without having to think about all those little problems. The first step in solving these problems are by utilizing coroutines. Coroutines solve our first problem for free due to their nature of yielding until they stop being told to yield. Now let us look how we can modify our class with coroutine to solve this problem:
-
+Now trying to do this simple thing ends up creating little problems that we are going to have to handle. Well, this is why actions are awesome because they will remove these little problems and let you do focus on what is important. The first step in solving these problems is utilizing coroutines. Coroutines solve our first problem for free due to their nature of yielding until they stop being told to yield. Now, let us look at how we can modify our class with a coroutine to solve this problem:
 
 {% highlight c# %}
 public class AsteroidMover : MonoBehaviour {
@@ -137,7 +136,7 @@ public class AsteroidMover : MonoBehaviour {
       float t = currTime / duration;
       transform.position = Vector3.Lerp(startMarker.position, endMarker.position, t);
       currTime += Time.deltaTime;
-      // Now we want to yiaction workeld until the next frame
+      // Now we want to yield until the next frame
       yield return null;  
     }
     // Once we pass the while loop, this function won't be called anymore
@@ -145,7 +144,7 @@ public class AsteroidMover : MonoBehaviour {
 }
 {% endhighlight %} 
 
-Look at that! We barely had to rewrite our code to fix that problem. Now the only major roadblock left is how do we tell this coroutine to start and how do we tell the following action to start after this one? If you think about our problem all we are trying to do is create an order of actions. We are building a _sequence_!
+Look at that! We barely had to rewrite our code to fix that problem. Now the only major roadblock left is how do we tell this coroutine to start and how do we tell the following action to start after this one? If you think about our problem, all we are trying to do is create an order of actions. We are building a _sequence_!
 
 >
 

@@ -8,7 +8,7 @@ tags: [DigiPen, Unity, SteamVR, Vive, blog, Hereafter, Polterheist]
 
 ---
 
-### Current Project: _Hereafter_
+### Current Project: _Hereafter_ ###
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/R_ueRNGY2H4" frameborder="0" allowfullscreen></iframe>
 
@@ -27,7 +27,7 @@ tags: [DigiPen, Unity, SteamVR, Vive, blog, Hereafter, Polterheist]
 
 --- 
 
-### _Polterheist_ (Sophomore)
+### _Polterheist_ (Sophomore) ###
 
 <iframe width="420" height="315" src="https://www.youtube.com/embed/5zTq696zqZE" frameborder="0" allowfullscreen></iframe>
 
