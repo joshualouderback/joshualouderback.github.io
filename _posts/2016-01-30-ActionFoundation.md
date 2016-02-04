@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Foundation of Actions! (Part 1)
+title: Action Foundations (Part 1)
 excerpt: "Actions and Coroutines!"
 modified: 2016-01-30
 tags: [Unity, Action, Actions, Programming, Tips]
@@ -11,7 +11,7 @@ comments: true
 
 ### What are _Actions_? ###
 
-An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we want to warn the players with a "Warning Dialogue"? Now, say we want the lights in the room the player is in to fade to black, and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
+An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we wanted to rotate the asteroid while it traveled to b? Now, say we want the lights in the room the player is in to fade to black, and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
 
 >
 
@@ -48,14 +48,7 @@ public abstract class Action
   // Constructor
   public Action() {}
 
-  /////// Public Methods /////// 
-  // Since actions manage themselves they look to their parent for most things
-  public void SetParent(Action parent)
-  {
-    // Set our parent and our target to our parents target
-    parent_ = parent;
-    target_ = parent_.target_;
-  }
+  /////// Public Method /////// 
   // Since actions manage themselves they start themselves
   public Coroutine StartAction()
   {
@@ -73,8 +66,16 @@ public abstract class Action
   public virtual bool IsPaused() { return parent_.IsPaused(); }
   public bool IsCompleted() { return completed_; }
   public bool IsRunning() { return running_; }
+  public Actions GetTarget() { return target_; }
 
   /////// Virtual methods /////// 
+  // Since actions manage themselves they look to their parent for most things
+  public virtual void SetParent(Action parent)
+  {
+    // Set our parent and our target to our parents target
+    parent_ = parent;
+    target_ = parent_.target_;
+  }
   // Every action updates differently
   public virtual IEnumerator Update() { yield break; }
   // Some actions may cancel differently
@@ -148,5 +149,5 @@ Look at that! We barely had to rewrite our code to fix that problem. Now the onl
 
 >
 
-[Continue to part 2.](http://joshualouderback.com/ActionManagement/)
+[Continue to part 2. (Action Management)](http://joshualouderback.com/ActionManagement/)
 

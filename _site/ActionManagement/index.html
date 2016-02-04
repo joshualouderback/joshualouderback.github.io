@@ -6,14 +6,14 @@
 <head>
 <meta charset="utf-8">
 <title>Action Management (Part 2) &#8211; Joshua Louderback</title>
-<meta name="description" content="Sequences and Groups.">
+<meta name="description" content="Sequences and Groups!">
 <meta name="keywords" content="Unity, Action, Actions, Sequences, Groups, Programming, Tips">
 
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Action Management (Part 2)">
-<meta name="twitter:description" content="Sequences and Groups.">
+<meta name="twitter:description" content="Sequences and Groups!">
 <meta name="twitter:site" content="@joshlouderback">
 <meta name="twitter:creator" content="@joshlouderback">
 
@@ -24,7 +24,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Action Management (Part 2)">
-<meta property="og:description" content="Sequences and Groups.">
+<meta property="og:description" content="Sequences and Groups!">
 <meta property="og:url" content="/ActionManagement/">
 <meta property="og:site_name" content="Joshua Louderback">
 
@@ -156,6 +156,8 @@
 
 <p>When I approached implementing actions, one of the biggest things I wanted was self-management. I didn’t want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whatever object cares about it. This way if they care to pause or cancel it they don’t need to go looking for it. Also, since actions are bound to objects, if you don’t want an action to persist, then attach to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions. For example, a boss’s attack sequence will automatically end when the boss is destroyed. Lastly, one the benefits of using coroutines is that we don’t need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action manage itself. And due to the nature of how actions are structured, which we will get into below, the main “managers” of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is a logical direction to go. Now onto the first and major “manager” of actions, sequences!</p>
 
+<hr />
+
 <h3 id="sequences">Sequences:</h3>
 
 <p>Sequences are the main “manager” of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as a queue, since it has all the properties of a sequence:</p>
@@ -247,9 +249,134 @@
 
 <p>In the update of a sequence is when we really start utilizing all the capabilites of coroutines to our advantage. A coroutine will maintain all of the data that was on the stack before we yielded, this way when we return, all of the data we had before is still here. The while loop wrapped around our action.StartAction() is purely there to take advantage of this. After the started action is completed we will return to while(!action.IsCompleted()) and we will immediately break out of the loop, and remove our action. We technically bypass two unneccessary operations, getting the action, and checking if it is paused. As you hopefully can start to see, you can really start extending this capability to far more complex logic gaining even more of an optimization.</p>
 
+<hr />
+
 <h3 id="groups">Groups</h3>
 
-<p>Coming soon…</p>
+<p>Now that we have sequences, it would be helpful if we had an action that could run actions in parallel! If you remember our example from last time, we wanted an asteroid to rotate as it was travelling towards the player’s position. The only way we would be able to do this is if we could move the asteroid with one action and combine it with another action that rotates it. Remember that all actions are contained in a sequence, and a sequence can only update one action at a time? Therefore, we will want to create an action that consists of a <em>group</em> of actions. This is where action groups come in, the next “manager” of actions. Lets take a look at how the action group is laid out:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionGroup</span> <span class="p">:</span> <span class="n">Action</span>
+<span class="p">{</span>
+  <span class="c1">// We use a List for the actions in the group, since we want to be able to </span>
+  <span class="c1">// access each action without having to remove any.</span>
+  <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;</span> <span class="n">list</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;();</span>
+
+  <span class="c1">// Default Constructor</span>
+  <span class="k">public</span> <span class="nf">ActionGroup</span><span class="p">()</span>
+  <span class="p">{</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Add function to push actions into group</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Parent the action to this group</span>
+    <span class="n">action</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="c1">// Add the action to the group list</span>
+    <span class="n">list</span><span class="p">.</span><span class="n">Add</span><span class="p">(</span><span class="n">action</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Coroutine for updating Action Groups</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerator</span> <span class="nf">Update</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// We have started running</span>
+    <span class="n">running_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// If we are started and empty, wait</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">Count</span> <span class="p">==</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// This just allows users to add the group into sequence before adding</span>
+      <span class="c1">// actions into the group</span>
+      <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// While we are paused, wait</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">IsPaused</span><span class="p">())</span> 
+    <span class="p">{</span>
+      <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Loop through every action and start it</span>
+    <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">action</span> <span class="k">in</span> <span class="n">list</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">action</span><span class="p">.</span><span class="n">StartAction</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Now that all have started, yield until they all are completed</span>
+    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">list</span><span class="p">.</span><span class="n">Count</span><span class="p">;</span> <span class="p">)</span>
+    <span class="p">{</span>
+      <span class="k">if</span><span class="p">(!</span><span class="n">list</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">IsCompleted</span><span class="p">())</span>
+        <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+      <span class="k">else</span> 
+        <span class="p">++</span><span class="n">i</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Clear the group and mark as completed</span>
+    <span class="n">completed_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="n">list</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>	
+    <span class="c1">// Now we are done, break yielding</span>
+    <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>One major note about this implementation is that we are supporting all ways a user can add a group to a sequence. Users can create the group, followed by either adding all of the actions to it, then adding it to the sequence like so:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>  <span class="p">{</span>
+    <span class="n">ActionSequence</span> <span class="n">seq</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+    <span class="n">ActionGroup</span> <span class="n">grp</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionGroup</span><span class="p">();</span>
+    <span class="c1">// Add the actions</span>
+    <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+    <span class="p">...</span>
+    <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+    <span class="c1">// Then add the group to the sequence</span>
+    <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">grp</span><span class="p">);</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>Or by adding it the sequence first, then adding all of the actions like in the example below:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>  <span class="p">{</span>  
+    <span class="n">ActionSequence</span> <span class="n">seq</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+    <span class="n">ActionGroup</span> <span class="n">grp</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionGroup</span><span class="p">();</span>
+    <span class="c1">// Add the group to the sequence</span>
+    <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">grp</span><span class="p">);</span>
+    <span class="c1">// Then add the actions</span>
+    <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+    <span class="p">...</span>
+    <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>Since we have no way to enforce one or the other (unless by throwing errors), I thought it best to be able to support both ways. This is why the action group needs to overload SetParent(), because if we added all of our actions to the group before adding the group to the sequence, then all of the targets for the group’s children will be wrong.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionGroup</span> <span class="p">:</span> <span class="n">Action</span> <span class="p">{</span>
+  <span class="p">...</span>
+
+  <span class="c1">// Overriding since we may not of set our parent to the sequence we add ourselves</span>
+  <span class="c1">// to yet, so we will want to garauntee all of children get to set to it here</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">SetParent</span> <span class="p">(</span><span class="n">Action</span> <span class="n">parent</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Call the base implementation to set our parent and target</span>
+    <span class="k">base</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+
+    <span class="c1">// We only need to update our children if we have any</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Loop through all the actions in our list and set their parents,</span>
+      <span class="c1">// effectively updating their target correctly</span>
+      <span class="k">foreach</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span> <span class="k">in</span> <span class="n">list</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="c1">// Otherwise set it</span>
+        <span class="n">action</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Notice that we have only covered adding and updating actions within groups and sequences? What about pausing and cancelling? These two things also rely on our “managers” of actions and are covered in the next part of the article.</p>
+
+<blockquote>
+
+</blockquote>
+
+<p><a href="http://joshualouderback.com/PausingAndCancelling/">Continue to part 3. (Pausing And Cancelling)</a></p>
 
       <hr />
       <footer role="contentinfo">
@@ -280,7 +407,11 @@
   <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
     <ul>
     
-      <li><a href="/ActionFoundation/" title="Foundation of Actions! (Part 1)">Foundation of Actions! (Part 1)</a></li>
+      <li><a href="/ActionFoundation/" title="Action Foundations (Part 1)">Action Foundations (Part 1)</a></li>
+    
+      <li><a href="/PausingAndCancelling/" title="Action Pausing And Cancelling (Part 3)">Action Pausing And Cancelling (Part 3)</a></li>
+    
+      <li><a href="/AllTheActions/" title="Action Delays, Calls, And Routines (Part 4)">Action Delays, Calls, And Routines (Part 4)</a></li>
     
     </ul>
     <hr />

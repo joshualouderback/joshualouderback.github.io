@@ -1,0 +1,355 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Action Pausing And Cancelling (Part 3) &#8211; Joshua Louderback</title>
+<meta name="description" content="How To Pause And Cancel Actions!">
+<meta name="keywords" content="Unity, Action, Actions, Sequences, Groups, Action Pausing, Action Cancelling, Programming, Tips">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Action Pausing And Cancelling (Part 3)">
+<meta name="twitter:description" content="How To Pause And Cancel Actions!">
+<meta name="twitter:site" content="@joshlouderback">
+<meta name="twitter:creator" content="@joshlouderback">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/default-thumb.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Action Pausing And Cancelling (Part 3)">
+<meta property="og:description" content="How To Pause And Cancel Actions!">
+<meta property="og:url" content="/PausingAndCancelling/">
+<meta property="og:site_name" content="Joshua Louderback">
+
+<meta property="og:image" content="/images/default-thumb.png">
+
+
+
+
+
+
+<link rel="canonical" href="/PausingAndCancelling/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Joshua Louderback Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Joshua Louderback</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				        
+				    
+				    <li><a href="/projects/" >Projects</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/posts/" >Blog</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/resume/" >Resume</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpg" class="bio-photo" alt="Joshua Louderback bio photo">
+
+
+  <h3 itemprop="name">Joshua Louderback</h3>
+  <p>Junior BSCS RTIS At DigiPen. Tools And Systems Programmer.</p>
+  <a href="mailto:joshlouderback@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  <a href="http://twitter.com/joshlouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+  
+  
+  <a href="http://linkedin.com/in/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+  
+  
+  
+  <a href="http://github.com/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/PausingAndCancelling/" rel="bookmark" title="Action Pausing And Cancelling (Part 3)">Action Pausing And Cancelling (Part 3)</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <h3 id="pausing">Pausing:</h3>
+
+<p>By how we already setup our actions pausing is really easy to finish off. If we look back at our base Action class:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="c1">///////  Settors /////// </span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Pause</span><span class="p">()</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">paused_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span> <span class="p">}</span>
+<span class="k">public</span> <span class="k">void</span> <span class="nf">Resume</span><span class="p">()</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">paused_</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span> <span class="p">}</span>
+
+<span class="c1">/////// Gettors /////// </span>
+<span class="k">public</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">IsPaused</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">parent_</span><span class="p">.</span><span class="n">IsPaused</span><span class="p">();</span> <span class="p">}</span></code></pre></div>
+
+<p>You can see that pausing rest upons our parents, and this is true due to the fact that actions are hierarchical. If any piece of the “engine” stops, so will the rest of it. Now there is only one problem in the “engine” that we have to fix. You may have been asking yourself why is IsPaused() marked virtual? Well if you think about it, if we always ask our parent, then the parent at the top of the hierarchy would just keep asking themselves. Remember in the constructor of a sequence we did this:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="nf">ActionSequence</span><span class="p">(</span><span class="n">GameObject</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Sequence&#39;s parents should always start as themselves</span>
+    <span class="n">parent_</span> <span class="p">=</span> <span class="k">this</span><span class="p">;</span>
+    <span class="p">...</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>The main sequence will be the top of the hierarchy, so their parent will be left as themselves. Now when it is time to ask if they are paused, they will go spiral into an infinite loop of asking themselves if they are paused. Obviously we can’t let the head hancho be a complete fool! This is where the override of the IsPaused() method comes in:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionSequence</span> <span class="p">:</span> <span class="n">Action</span> 
+<span class="p">{</span>
+  <span class="p">...</span>
+
+  <span class="c1">// Override base isPaused implementation because we could be our own parent</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="kt">bool</span> <span class="nf">IsPaused</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// We may not be our parent if we are a sequence in a sequence, so check</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">parent_</span> <span class="p">==</span> <span class="k">this</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">paused_</span><span class="p">;</span>
+    <span class="k">else</span>
+      <span class="k">return</span> <span class="n">parent_</span><span class="p">.</span><span class="n">IsPaused</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>And there you have it! We can pause and unpause any of our actions! Now, we have another fish to fry…</p>
+
+<hr />
+
+<h3 id="cancelling">Cancelling:</h3>
+
+<p>Cancelling was actually the last thing I approached when implementing actions, and it caused a bit of a re-write. Luckily for you, all the implementation I have showed you is ready to support cancelling without any need for rewrites. In my original implementation, I was mistaken by the functionality of StopCoroutine(). I thought that since I was able to StartCoroutine by supplying the coroutine function, that I could also end a coroutine by supplying it with the same coroutine function like so:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="c1">// Get the current action, so we can update it</span>
+<span class="n">Action</span> <span class="n">action</span> <span class="p">=</span> <span class="n">sequence</span><span class="p">.</span><span class="n">Peek</span><span class="p">();</span>
+
+<span class="c1">// Start the coroutine supply the coroutine update function</span>
+<span class="n">StartCoroutine</span><span class="p">(</span><span class="n">action</span><span class="p">.</span><span class="n">Update</span><span class="p">());</span>
+
+<span class="c1">// Then stop it by supplying the same coroutine function</span>
+<span class="n">StopCoroutine</span><span class="p">(</span><span class="n">action</span><span class="p">.</span><span class="n">Update</span><span class="p">());</span></code></pre></div>
+
+<p>Since this wasn’t the case, I was concerned that having a self-managed action system wouldn’t be possible. Somewhere I needed to keep track of the coroutines, so that I could cancel them when needed. And that is when it hit me! I can just store the coroutines within the actions themselves. Now if we look back to the base action class we can see why there was a Coroutine member, and why we had StartAction and Cancel methods!</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">Action</span> <span class="p">{</span>
+  <span class="k">protected</span> <span class="n">Coroutine</span> <span class="n">routine_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+  <span class="p">...</span>
+
+  <span class="c1">// Originally I had Groups and Sequences calling StartCoroutine, but since we needed </span>
+  <span class="c1">// the actions to manage themselves I just wrapped it inside a function.</span>
+  <span class="c1">// So the action itself can get the coroutine and the caller can get it too.</span>
+  <span class="k">public</span> <span class="n">Coroutine</span> <span class="nf">StartAction</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Set our routine, because me manage ourselves</span>
+    <span class="n">routine_</span> <span class="p">=</span> <span class="n">target_</span><span class="p">.</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">Update</span><span class="p">());</span>
+    <span class="c1">// Return the routine, just in case others want to yield on us</span>
+    <span class="k">return</span> <span class="n">routine_</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="c1">// I also had Groups and Sequences calling StopCoroutine, but that was incorrect.</span>
+  <span class="c1">// Now the action itself has to call StopCoroutine since it holds the coroutine.</span>
+  <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">Cancel</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">routine_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+      <span class="n">target_</span><span class="p">.</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">routine_</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>“Wait a minute!”, you may be saying. You’ve seen my tricks and you may have noticed that I marked Cancel() as virtual and there is someone that needs to override it. You got me! And I bet you guessed that it would be the parents who have to override it! Well you are close, unless you were thinking about the two “managers”, groups and sequences. Since group and sequences hold the actions, they are the ones who have to tell all of their children that they are being cancelled. Lets see what we need to add to handle that:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionSequence</span> <span class="p">:</span> <span class="n">Action</span> <span class="p">{</span>
+  <span class="p">...</span>
+
+  <span class="c1">// Now since sequences are usually at the top not only do we have to handle </span>
+  <span class="c1">// telling it to cancel its children, but it also needs to be able to cancel itself.</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Cancel</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// As long as we have objects</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">sequence</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Grab the current action</span>
+      <span class="n">Action</span> <span class="n">action</span> <span class="p">=</span> <span class="n">sequence</span><span class="p">.</span><span class="n">Peek</span><span class="p">();</span>
+      <span class="c1">// Cancel the action</span>
+      <span class="n">action</span><span class="p">.</span><span class="n">Cancel</span><span class="p">();</span>
+      <span class="c1">// Remove the rest</span>
+      <span class="n">sequence</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Make sure we have a routine, before cancelling blindly</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">routine_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Since we do, stop it and null it out</span>
+      <span class="n">target_</span><span class="p">.</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">routine_</span><span class="p">);</span>
+      <span class="n">routine_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span></code></pre></div>
+
+<p>Groups are basically the same thing:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionGroup</span> <span class="p">:</span> <span class="n">Action</span> <span class="p">{</span>
+  <span class="p">...</span>
+  
+  <span class="c1">// If we need to cancel all </span>
+  <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Cancel</span><span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Loop through every action and stop it</span>
+    <span class="k">foreach</span><span class="p">(</span><span class="kt">var</span> <span class="n">action</span> <span class="k">in</span> <span class="n">list</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Tell the action to cancel itself</span>
+      <span class="n">action</span><span class="p">.</span><span class="n">Cancel</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Clear it</span>
+    <span class="n">list</span><span class="p">.</span><span class="n">Clear</span><span class="p">();</span>
+
+    <span class="c1">// Make sure we have a routine, before cancelling blindly</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">routine_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Stop it</span>
+      <span class="n">target_</span><span class="p">.</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">routine_</span><span class="p">);</span>
+      <span class="n">routine_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p>There we go! Now that we have all of the management functionality out of the way, we can move onto the actions that actually do actions!</p>
+
+<blockquote>
+
+</blockquote>
+
+<p><a href="http://joshualouderback.com/AllTheActions/">Continue to part 4. (All The Actions)</a></p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/PausingAndCancelling/" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/PausingAndCancelling/" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/PausingAndCancelling/" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Action Pausing And Cancelling (Part 3)</strong> was published on <time datetime="2016-01-28T00:00:00-08:00">January 28, 2016</time> and last modified on <time datetime="2016-01-30">January 30, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/ActionFoundation/" title="Action Foundations (Part 1)">Action Foundations (Part 1)</a></li>
+    
+      <li><a href="/ActionManagement/" title="Action Management (Part 2)">Action Management (Part 2)</a></li>
+    
+      <li><a href="/AllTheActions/" title="Action Delays, Calls, And Routines (Part 4)">Action Delays, Calls, And Routines (Part 4)</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>&copy; 2016 Joshua Louderback. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>
