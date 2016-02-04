@@ -180,7 +180,6 @@ public class ActionGroup : Action
 One major note about this implementation is that we are supporting all ways a user can add a group to a sequence. Users can create the group, followed by either adding all of the actions to it, then adding it to the sequence like so: 
 
 {% highlight c# %} 
-
   void Start()  {
     ActionSequence seq = new ActionSequence(this.gameObject);
     ActionGroup grp = new ActionGroup();
@@ -191,13 +190,11 @@ One major note about this implementation is that we are supporting all ways a us
     // Then add the group to the sequence
     seq.AddAction(grp);
   }
-
 {% endhighlight %} 
 
 Or by adding it the sequence first, then adding all of the actions like in the example below:
 
 {% highlight c# %} 
-
   void Start()  {  
     ActionSequence seq = new ActionSequence(this.gameObject);
     ActionGroup grp = new ActionGroup();
@@ -208,7 +205,6 @@ Or by adding it the sequence first, then adding all of the actions like in the e
     ...
     grp.AddAction(new Action());
   }
-
 {% endhighlight %} 
 
 

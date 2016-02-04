@@ -60,7 +60,6 @@ And there you have it! We can pause and unpause any of our actions! Now, we have
 Cancelling was actually the last thing I approached when implementing actions, and it caused a bit of a re-write. Luckily for you, all the implementation I have showed you is ready to support cancelling without any need for rewrites. In my original implementation, I was mistaken by the functionality of StopCoroutine(). I thought that since I was able to StartCoroutine by supplying the coroutine function, that I could also end a coroutine by supplying it with the same coroutine function like so:
 
 {% highlight c# %} 
-
 // Get the current action, so we can update it
 Action action = sequence.Peek();
 
