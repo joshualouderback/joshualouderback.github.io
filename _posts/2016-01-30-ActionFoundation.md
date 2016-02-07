@@ -68,7 +68,7 @@ public abstract class Action
 
   /////// Virtual methods ///////
   // We only want to be able to add actions within constructors (more on this later)
-	protected virtual void AddAction(Action action) { parent_.AddAction(action); }
+  protected virtual void AddAction(Action action) { parent_.AddAction(action); }
   // Marked virtual since children need to ask their parents, 
   // but parents to need override for their own logic.
   public virtual bool IsPaused() { return parent_.IsPaused(); }
