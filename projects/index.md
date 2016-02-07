@@ -10,7 +10,7 @@ tags: [DigiPen, Unity, SteamVR, Vive, blog, Hereafter, Polterheist]
 
 ### Current Project: _Hereafter_ ###
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/R_ueRNGY2H4" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SVm03hqgtMw" frameborder="0" allowfullscreen></iframe>
 
 >**_Hereafter_** is an HTC Vive game built in Unity, where you are for the first time truly thrown completely into a world. By being able to physically move around the space, our goal is to deliver a true personal experience. We hope to accomplish this by putting the player on a damaged spaceship, without any hope of returning home again.
 

@@ -1,0 +1,314 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Adding Actions (Part 2.5) &#8211; Joshua Louderback</title>
+<meta name="description" content="Why Do We Add Actions The Way We Do?">
+<meta name="keywords" content="Unity, Action, Actions, Sequences, Groups, Programming, Tips">
+
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Adding Actions (Part 2.5)">
+<meta name="twitter:description" content="Why Do We Add Actions The Way We Do?">
+<meta name="twitter:site" content="@joshlouderback">
+<meta name="twitter:creator" content="@joshlouderback">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/default-thumb.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Adding Actions (Part 2.5)">
+<meta property="og:description" content="Why Do We Add Actions The Way We Do?">
+<meta property="og:url" content="/AddingActions/">
+<meta property="og:site_name" content="Joshua Louderback">
+
+<meta property="og:image" content="/images/default-thumb.png">
+
+
+
+
+
+
+<link rel="canonical" href="/AddingActions/">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="Joshua Louderback Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">Joshua Louderback</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav role="navigation" id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				        
+				    
+				    <li><a href="/projects/" >Projects</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/posts/" >Blog</a></li>
+				
+				    
+				        
+				    
+				    <li><a href="/resume/" >Resume</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpg" class="bio-photo" alt="Joshua Louderback bio photo">
+
+
+  <h3 itemprop="name">Joshua Louderback</h3>
+  <p>Junior BSCS RTIS At DigiPen. Tools And Systems Programmer.</p>
+  <a href="mailto:joshlouderback@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  <a href="http://twitter.com/joshlouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-twitter-square"></i> Twitter</a>
+  
+  
+  <a href="http://linkedin.com/in/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-linkedin-square"></i> LinkedIn</a>
+  
+  
+  
+  <a href="http://github.com/joshualouderback" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/AddingActions/" rel="bookmark" title="Adding Actions (Part 2.5)">Adding Actions (Part 2.5)</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <h3 id="why-protected-addaction">Why protected AddAction?</h3>
+
+<p>As promised, I am going to explain why AddAction was set to be a virtual protected function. Note, what is below does not relate to the current implementation and should not be replicated, it is purely to explain the evolution of the Action System. In previous iterations, AddAction was the main interface to adding Actions to groups and sequences. There were two really big problems with this:</p>
+
+<blockquote>
+
+</blockquote>
+
+<p><strong>1) Supporting both ways to add to groups and sequences.</strong></p>
+
+<blockquote>
+
+</blockquote>
+
+<p>Users used to be able to create the group, followed by either adding all of the Actions to it, then adding it to the sequence like so:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>  <span class="p">{</span>
+  <span class="n">ActionSequence</span> <span class="n">seq</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+  <span class="n">ActionGroup</span> <span class="n">grp</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionGroup</span><span class="p">();</span>
+  <span class="c1">// Add the Actions</span>
+  <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="p">...</span>
+  <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="c1">// Then add the group to the sequence</span>
+  <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">grp</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Or by adding it the sequence first, then adding all of the Actions like in the example below:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>  <span class="p">{</span>  
+  <span class="n">ActionSequence</span> <span class="n">seq</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+  <span class="n">ActionGroup</span> <span class="n">grp</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionGroup</span><span class="p">();</span>
+  <span class="c1">// Add the group to the sequence</span>
+  <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">grp</span><span class="p">);</span>
+  <span class="c1">// Then add the Actions</span>
+  <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="p">...</span>
+  <span class="n">grp</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Since we have no way to enforce one or the other (unless by throwing errors), I thought it best to be able to support both ways. This is why the old implementation needed to overload SetParent(), because if we added all of our Actions to the group before adding the group to the sequence, then all of the targets for the group’s children will be wrong.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionGroup</span> <span class="p">:</span> <span class="n">Action</span> <span class="p">{</span>
+  <span class="p">...</span>
+
+  <span class="c1">// Overriding since we may not of set our parent to the sequence we add ourselves</span>
+  <span class="c1">// to yet, so we will want to garauntee all of children get to set to it here</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">SetParent</span> <span class="p">(</span><span class="n">Action</span> <span class="n">parent</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="c1">// Call the base implementation to set our parent and target</span>
+    <span class="k">base</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="n">parent</span><span class="p">);</span>
+
+    <span class="c1">// We only need to update our children if we have any</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">list</span><span class="p">.</span><span class="n">Count</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// Loop through all the Actions in our list and set their parents,</span>
+      <span class="c1">// effectively updating their target correctly</span>
+      <span class="k">foreach</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span> <span class="k">in</span> <span class="n">list</span><span class="p">)</span>
+      <span class="p">{</span>
+        <span class="c1">// Otherwise set it</span>
+        <span class="n">action</span><span class="p">.</span><span class="n">SetParent</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span></code></pre></div>
+
+<p><strong>2) Keeping sequences from firing off, even though their parents didn’t trigger them.</strong></p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">void</span> <span class="nf">Start</span><span class="p">()</span>  <span class="p">{</span>
+  <span class="c1">// Create the parent sequence  </span>
+  <span class="n">ActionSequence</span> <span class="n">seq</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+  <span class="c1">// Give some action to do first, before starting the second sequence</span>
+  <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="c1">// Create the second sequence</span>
+  <span class="n">ActionSequence</span> <span class="n">seq2</span> <span class="p">=</span> <span class="k">new</span> <span class="n">ActionSequence</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">gameObject</span><span class="p">);</span>
+  <span class="c1">// Add the Actions</span>
+  <span class="n">seq2</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="p">...</span>
+  <span class="n">seq2</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">new</span> <span class="n">Action</span><span class="p">());</span>
+  <span class="c1">// Then add the second sequence to the first sequence</span>
+  <span class="n">seq</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">seq2</span><span class="p">);</span>
+<span class="p">}</span></code></pre></div>
+
+<p>Recall whenever an ActionSequence gains an Action and it is the parent, then it can start triggering the sequence. As you can see in the example above, when we create that second sequence and start adding Actions to it, that sequence will trigger. The second sequence is it’s own parent right up to the AddAction call to add the second sequence to the first. This fundamentally destroys the point of Actions, which is control the order and flow of Actions. If we have a sequence start before it should, it will cause game breaking features. This is why AddAction is now a protected virtual function. Within the base class of Action we implemented AddAction like so:</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="p">}</span></code></pre></div>
+
+<p>This is effectively asking our parent to add ourselves to them. Now we have to override this function in our ActionManager’s, so when the child asks to be added they know how to add them. Hence where the virtual keyword came into play. Finally, it is marked protected so that the only way to call AddAction is within the class itself. This way users outside the implementation cannot AddActions without following our desired interface, because if we let them call AddAction they could repeat the 2nd problem we listed above.</p>
+
+<blockquote>
+
+</blockquote>
+
+<p>Notice that we have only covered adding and updating Actions within groups and sequences? What about pausing and cancelling? These two things also rely on our “managers” of Actions and are covered in the next part of the article.</p>
+
+<blockquote>
+
+</blockquote>
+
+<p><a href="http://joshualouderback.com/PausingAndCancelling/">Continue to part 3. (Pausing And Cancelling)</a></p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/AddingActions/" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/AddingActions/" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/AddingActions/" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Adding Actions (Part 2.5)</strong> was published on <time datetime="2016-01-28T00:00:00-08:00">January 28, 2016</time> and last modified on <time datetime="2016-01-30">January 30, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/ActionFoundation/" title="Action Foundations (Part 1)">Action Foundations (Part 1)</a></li>
+    
+      <li><a href="/ActionManagement/" title="Action Management (Part 2)">Action Management (Part 2)</a></li>
+    
+      <li><a href="/PausingAndCancelling/" title="Action Pausing And Cancelling (Part 3)">Action Pausing And Cancelling (Part 3)</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>&copy; 2016 Joshua Louderback. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a> theme.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>

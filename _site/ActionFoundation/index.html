@@ -186,12 +186,10 @@
 
 <div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">Action</span>
 <span class="p">{</span>
-  <span class="k">protected</span> <span class="kt">bool</span> <span class="n">paused_</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>       <span class="c1">// Actions can be paused</span>
   <span class="k">protected</span> <span class="kt">bool</span> <span class="n">running_</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>      <span class="c1">// Need to know when an action is running</span>
   <span class="k">protected</span> <span class="kt">bool</span> <span class="n">completed_</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span>    <span class="c1">// Need to keep track of when the action is done</span>
-  <span class="k">protected</span> <span class="n">Action</span> <span class="n">parent_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>      <span class="c1">// We need to know our parent for extra info</span>
+  <span class="k">protected</span> <span class="n">ActionManager</span> <span class="n">parent_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>      <span class="c1">// We need to know our parent for extra info</span>
   <span class="k">protected</span> <span class="n">Coroutine</span> <span class="n">routine_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>  <span class="c1">// They keep track of their own routine</span>
-  <span class="k">protected</span> <span class="n">Actions</span> <span class="n">target_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>     <span class="c1">// Actions are tied to gameObjects</span>
 
   <span class="c1">// Constructor</span>
   <span class="k">public</span> <span class="nf">Action</span><span class="p">()</span> <span class="p">{}</span>
@@ -201,36 +199,39 @@
   <span class="k">public</span> <span class="n">Coroutine</span> <span class="nf">StartAction</span><span class="p">()</span>
   <span class="p">{</span>
     <span class="c1">// Set our routine, because we manage ourselves</span>
-    <span class="n">routine_</span> <span class="p">=</span> <span class="n">target_</span><span class="p">.</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">Update</span><span class="p">());</span>
+    <span class="n">routine_</span> <span class="p">=</span> <span class="n">parent_</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">().</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">Update</span><span class="p">());</span>
     <span class="c1">// Return the routine, just in case others want to yield on us</span>
     <span class="k">return</span> <span class="n">routine_</span><span class="p">;</span>
   <span class="p">}</span>
 
   <span class="c1">///////  Settors /////// </span>
+  <span class="c1">// Actions look to their parents for information they manage</span>
+  <span class="k">public</span> <span class="k">void</span> <span class="nf">SetParent</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">parent</span><span class="p">)</span> <span class="p">{</span> <span class="n">parent_</span> <span class="p">=</span> <span class="n">parent</span><span class="p">;</span> <span class="p">}</span>
   <span class="k">public</span> <span class="k">void</span> <span class="nf">Pause</span><span class="p">()</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">paused_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span> <span class="p">}</span>
   <span class="k">public</span> <span class="k">void</span> <span class="nf">Resume</span><span class="p">()</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">paused_</span> <span class="p">=</span> <span class="k">false</span><span class="p">;</span> <span class="p">}</span>
 
   <span class="c1">/////// Gettors /////// </span>
-  <span class="k">public</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">IsPaused</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">parent_</span><span class="p">.</span><span class="n">IsPaused</span><span class="p">();</span> <span class="p">}</span>
   <span class="k">public</span> <span class="kt">bool</span> <span class="nf">IsCompleted</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">completed_</span><span class="p">;</span> <span class="p">}</span>
   <span class="k">public</span> <span class="kt">bool</span> <span class="nf">IsRunning</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">running_</span><span class="p">;</span> <span class="p">}</span>
-  <span class="k">public</span> <span class="n">Actions</span> <span class="nf">GetTarget</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">target_</span><span class="p">;</span> <span class="p">}</span>
 
-  <span class="c1">/////// Virtual methods /////// </span>
-  <span class="c1">// Since actions manage themselves they look to their parent for most things</span>
-  <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">SetParent</span><span class="p">(</span><span class="n">Action</span> <span class="n">parent</span><span class="p">)</span>
-  <span class="p">{</span>
-    <span class="c1">// Set our parent and our target to our parents target</span>
-    <span class="n">parent_</span> <span class="p">=</span> <span class="n">parent</span><span class="p">;</span>
-    <span class="n">target_</span> <span class="p">=</span> <span class="n">parent_</span><span class="p">.</span><span class="n">target_</span><span class="p">;</span>
-  <span class="p">}</span>
+  <span class="c1">/////// Virtual methods ///////</span>
+  <span class="c1">// We only want to be able to add actions within constructors (more on this later)</span>
+	<span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="p">}</span>
+  <span class="c1">// Marked virtual since children need to ask their parents, </span>
+  <span class="c1">// but parents to need override for their own logic.</span>
+  <span class="k">public</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">IsPaused</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">parent_</span><span class="p">.</span><span class="n">IsPaused</span><span class="p">();</span> <span class="p">}</span>
   <span class="c1">// Every action updates differently</span>
   <span class="k">public</span> <span class="k">virtual</span> <span class="n">IEnumerator</span> <span class="nf">Update</span><span class="p">()</span> <span class="p">{</span> <span class="k">yield</span> <span class="k">break</span><span class="p">;</span> <span class="p">}</span>
   <span class="c1">// Some actions may cancel differently</span>
   <span class="k">public</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">Cancel</span><span class="p">()</span>
   <span class="p">{</span>
-    <span class="k">if</span><span class="p">(</span><span class="n">routine_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
-      <span class="n">target_</span><span class="p">.</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">routine_</span><span class="p">);</span>
+    <span class="c1">// Ensure all data is valid before blindly cancelling</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">routine_</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">parent_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="n">Actions</span> <span class="n">target</span> <span class="p">=</span> <span class="n">parent</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">();</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">target</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+        <span class="n">target</span><span class="p">.</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">routine_</span><span class="p">);</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span></code></pre></div>
 
@@ -329,9 +330,9 @@
     
       <li><a href="/ActionManagement/" title="Action Management (Part 2)">Action Management (Part 2)</a></li>
     
-      <li><a href="/PausingAndCancelling/" title="Action Pausing And Cancelling (Part 3)">Action Pausing And Cancelling (Part 3)</a></li>
+      <li><a href="/AddingActions/" title="Adding Actions (Part 2.5)">Adding Actions (Part 2.5)</a></li>
     
-      <li><a href="/AllTheActions/" title="Action Delays, Calls, And Routines (Part 4)">Action Delays, Calls, And Routines (Part 4)</a></li>
+      <li><a href="/PausingAndCancelling/" title="Action Pausing And Cancelling (Part 3)">Action Pausing And Cancelling (Part 3)</a></li>
     
     </ul>
     <hr />

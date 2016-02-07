@@ -11,24 +11,77 @@ comments: true
 
 ### Management\: ###
 
-When I approached implementing actions, one of the biggest things I wanted was self-management. I didn't want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whatever object cares about it. This way if they care to pause or cancel it they don't need to go looking for it. Also, since actions are bound to objects, if you don't want an action to persist, then attach to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with actions. For example, a boss's attack sequence will automatically end when the boss is destroyed. Lastly, one the benefits of using coroutines is that we don't need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action manage itself. And due to the nature of how actions are structured, which we will get into below, the main "managers" of actions are the top most actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is a logical direction to go. Now onto the first and major "manager" of actions, sequences!
+When I approached implementing Actions, one of the biggest things I wanted was self-management. I didn't want some complex system managing a simple system, especially when there is no need. If a player creates an action and they care about it, they will store it within whatever object cares about it. This way if they care to pause or cancel it they don't need to go looking for it. Also, since Actions are bound to objects, if you don't want an action to persist, then attach to an object that will eventually be destroyed. You can use this to your advantage in some cases when binding logic with Actions. For example, a boss's attack sequence will automatically end when the boss is destroyed. Lastly, one the benefits of using coroutines is that we don't need to add an extra system to manage it, since the engine is already managing it for us. The only thing we need to manage are the coroutines themselves, but that is easily done by making the action manage itself. And due to the nature of how Actions are structured, which we will get into below, the main "managers" of Actions are the top most Actions in the hierarchy. Any part of the hierarchy will affect the rest, so having them manage themselves and each other is a logical direction to go.  
+
+---
+
+### Action Managers\: ###
+
+In the previous article we laid out the base class of all Actions, but they referenced something known as an ActionManager as their parent. Action Managers are an extension of the Action class to reduce memory footprint, support the interface we want and maintain performance. Since Actions are hierarchical, we want to ensure that they all of their children have the same target as their parent, pause and unpause with their parent and cancel with their parent. Those are what the Action Manager class offers us and now let us see how we support that with the ActionManager implementation:
+
+{% highlight c# %}
+// The "Managers" of Actions (groups and sequences)
+public abstract class ActionManager : Action
+{
+  // Since every action relies on these, but always look to their parent,
+  // then we abstracted them out to the managers to reduce memory footprint
+  protected Actions target_ = null;
+  protected bool paused_ = false;
+
+  // Children need to get the parents target to know who to ask to start
+  // and stop their coroutines
+  public Actions GetTarget() { return target_; }
+
+  // Since the managers control pausing and resume we need to override the request
+  // virtual functions of the children Actions
+  public override void Pause() {
+    // We may not be our own parent
+    if(parent_ == this)
+      paused_ = true;
+    else
+      return parent_.Pause();
+  }
+  public override void Resume() {     
+    // We may not be our own parent
+    if(parent_ == this)
+      paused_ = false;
+    else
+      return parent_.Resume();
+  }
+}
+{% endhighlight %}
+
+>
+
+Now that we got the ground work of ActionManagers out of the way, we can move onto the first and major "manager" of Actions, Sequences!
 
 ---
 
 ### Sequences\: ###
 
-Sequences are the main "manager" of actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as a queue, since it has all the properties of a sequence: 
+Sequences are the main "manager" of Actions, because every action belongs within some sequence, even if it is just one action. We can easily represent a sequence as a queue, since it has all the properties of a sequence: 
 
 * First in first out, which maintains our order.
 * Front access only, therefore we can't update the next action until the front is done and removed.
 
-With something to manage the order of our actions and when to notify the next action, we have basically stripped out all of the annoyances of writing what we used to call "simple code". We can really call it "simple code" now that we only have to focus on what the logic is.
+With something to manage the order of our Actions and when to notify the next action, we have basically stripped out all of the annoyances of writing what we used to call "simple code". We can really call it "simple code" now that we only have to focus on what the logic is.
 
 {% highlight c# %}
 public class ActionSequence : Action
 {
-  // The sequence of actions, placed in queue to maintain FIFO
+  // The sequence of Actions, placed in queue to maintain FIFO
   private Queue<Action> sequence = new Queue<Action>();
+
+  // In case we want to add a sequence to a sequence or a sequence to a group
+  public ActionSequence(ActionManager manager)
+  {
+    // Set our parent to them
+    SetParent(manager);
+    // And set our target as theirs
+    target_ = manager.GetTarget();
+    // Add ourselves to them
+    AddAction(this);
+  }
 
   // Constructor binding the sequence to a game object
   public ActionSequence(GameObject target)
@@ -53,17 +106,15 @@ public class ActionSequence : Action
     }
   }
 
-  // Add function to allow users to add any action type to queue	
-  public void AddAction(Action action)
+  // Restricts users to only be able to add Actions through constructors
+  protected override void AddAction(Action action)
   {
-    // Parent the action to this sequence
-    action.SetParent(this);
-
     // Place action in queue
     sequence.Enqueue(action);
-
-    // If this is our first action, activate sequence coroutine
-    if(sequence.Count == 1)
+    
+    // If this is our first action, and we are the parent
+    // then activate sequence coroutine
+    if(sequence.Count == 1 && parent_ == this)
     {
       routine_ = target_.StartCoroutine(this.Update());
     }
@@ -75,7 +126,7 @@ public class ActionSequence : Action
     // We have started running
     running_ = true;
 
-    // While there are actions to update, update them
+    // While there are Actions to update, update them
     while(sequence.Count > 0)
     {
       // Get the current action, so we can update it
@@ -110,12 +161,12 @@ In the update of a sequence is when we really start utilizing all the capabilite
 
 ### Groups ###
 
-Now that we have sequences, it would be helpful if we had an action that could run actions in parallel! If you remember our example from last time, we wanted an asteroid to rotate as it was travelling towards the player's position. The only way we would be able to do this is if we could move the asteroid with one action and combine it with another action that rotates it. Remember that all actions are contained in a sequence, and a sequence can only update one action at a time? Therefore, we will want to create an action that consists of a _group_ of actions. This is where action groups come in, the next "manager" of actions. Lets take a look at how the action group is laid out:
+Now that we have sequences, it would be helpful if we had an action that could run Actions in parallel! If you remember our example from last time, we wanted an asteroid to rotate as it was travelling towards the player's position. The only way we would be able to do this is if we could move the asteroid with one action and combine it with another action that rotates it. Remember that all Actions are contained in a sequence, and a sequence can only update one action at a time? Therefore, we will want to create an action that consists of a _group_ of Actions. This is where action groups come in, the next "manager" of Actions. Lets take a look at how the action group is laid out:
 
 {% highlight c# %}
 public class ActionGroup : Action
 {
-  // We use a List for the actions in the group, since we want to be able to 
+  // We use a List for the Actions in the group, since we want to be able to 
   // access each action without having to remove any.
   private List<Action> list = new List<Action>();
 
@@ -124,11 +175,9 @@ public class ActionGroup : Action
   {
   }
 
-  // Add function to push actions into group
-  public void AddAction(Action action)
+  // Restricts users to only be able to add Actions through constructors
+  protected override void AddAction(Action action)
   {
-    // Parent the action to this group
-    action.SetParent(this);
     // Add the action to the group list
     list.Add(action);
   }
@@ -143,7 +192,7 @@ public class ActionGroup : Action
     while(list.Count == 0)
     {
       // This just allows users to add the group into sequence before adding
-      // actions into the group
+      // Actions into the group
       yield return null;
     }
 
@@ -177,67 +226,8 @@ public class ActionGroup : Action
 }
 {% endhighlight %} 
 
-One major note about this implementation is that we are supporting all ways a user can add a group to a sequence. Users can create the group, followed by either adding all of the actions to it, then adding it to the sequence like so: 
-
-{% highlight c# %} 
-  void Start()  {
-    ActionSequence seq = new ActionSequence(this.gameObject);
-    ActionGroup grp = new ActionGroup();
-    // Add the actions
-    grp.AddAction(new Action());
-    ...
-    grp.AddAction(new Action());
-    // Then add the group to the sequence
-    seq.AddAction(grp);
-  }
-{% endhighlight %} 
-
-Or by adding it the sequence first, then adding all of the actions like in the example below:
-
-{% highlight c# %} 
-  void Start()  {  
-    ActionSequence seq = new ActionSequence(this.gameObject);
-    ActionGroup grp = new ActionGroup();
-    // Add the group to the sequence
-    seq.AddAction(grp);
-    // Then add the actions
-    grp.AddAction(new Action());
-    ...
-    grp.AddAction(new Action());
-  }
-{% endhighlight %} 
-
-
-Since we have no way to enforce one or the other (unless by throwing errors), I thought it best to be able to support both ways. This is why the action group needs to overload SetParent(), because if we added all of our actions to the group before adding the group to the sequence, then all of the targets for the group's children will be wrong.  
-
-{% highlight c# %} 
-public class ActionGroup : Action {
-  ...
-
-  // Overriding since we may not of set our parent to the sequence we add ourselves
-  // to yet, so we will want to garauntee all of children get to set to it here
-  public override void SetParent (Action parent)
-  {
-    // Call the base implementation to set our parent and target
-    base.SetParent(parent);
-
-    // We only need to update our children if we have any
-    if(list.Count > 0)
-    {
-      // Loop through all the actions in our list and set their parents,
-      // effectively updating their target correctly
-      foreach(Action action in list)
-      {
-        // Otherwise set it
-        action.SetParent(this);
-      }
-    }
-  }
-}
-{% endhighlight %} 
-
-Notice that we have only covered adding and updating actions within groups and sequences? What about pausing and cancelling? These two things also rely on our "managers" of actions and are covered in the next part of the article.
+If you recall in base implementation of the Action class, I mentioned that I would get back to why AddAction is written the way it is. All of that is explained in the next section of the article, found by clicking below!
 
 >
 
-[Continue to part 3. (Pausing And Cancelling)](http://joshualouderback.com/PausingAndCancelling/) 
+[Continue to part 2.5. (Adding Actions)](http://joshualouderback.com/AddingActions/) 

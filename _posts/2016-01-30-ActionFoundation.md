@@ -38,12 +38,10 @@ _*Note\: The code blocks are formatted to condense minor sections and reduce pag
 {% highlight c# %}
 public abstract class Action
 {
-  protected bool paused_ = false;       // Actions can be paused
   protected bool running_ = false;      // Need to know when an action is running
   protected bool completed_ = false;    // Need to keep track of when the action is done
-  protected Action parent_ = null;      // We need to know our parent for extra info
+  protected ActionManager parent_ = null;      // We need to know our parent for extra info
   protected Coroutine routine_ = null;  // They keep track of their own routine
-  protected Actions target_ = null;     // Actions are tied to gameObjects
 
   // Constructor
   public Action() {}
@@ -53,36 +51,39 @@ public abstract class Action
   public Coroutine StartAction()
   {
     // Set our routine, because we manage ourselves
-    routine_ = target_.StartCoroutine(Update());
+    routine_ = parent_.GetTarget().StartCoroutine(Update());
     // Return the routine, just in case others want to yield on us
     return routine_;
   }
 
   ///////  Settors /////// 
+  // Actions look to their parents for information they manage
+  public void SetParent(ActionManager parent) { parent_ = parent; }
   public void Pause() { parent_.paused_ = true; }
   public void Resume() { parent_.paused_ = false; }
 
   /////// Gettors /////// 
-  public virtual bool IsPaused() { return parent_.IsPaused(); }
   public bool IsCompleted() { return completed_; }
   public bool IsRunning() { return running_; }
-  public Actions GetTarget() { return target_; }
 
-  /////// Virtual methods /////// 
-  // Since actions manage themselves they look to their parent for most things
-  public virtual void SetParent(Action parent)
-  {
-    // Set our parent and our target to our parents target
-    parent_ = parent;
-    target_ = parent_.target_;
-  }
+  /////// Virtual methods ///////
+  // We only want to be able to add actions within constructors (more on this later)
+	protected virtual void AddAction(Action action) { parent_.AddAction(action); }
+  // Marked virtual since children need to ask their parents, 
+  // but parents to need override for their own logic.
+  public virtual bool IsPaused() { return parent_.IsPaused(); }
   // Every action updates differently
   public virtual IEnumerator Update() { yield break; }
   // Some actions may cancel differently
   public virtual void Cancel()
   {
-    if(routine_ != null)
-      target_.StopCoroutine(routine_);
+    // Ensure all data is valid before blindly cancelling
+    if(routine_ != null && parent_ != null)
+    {
+      Actions target = parent.GetTarget();
+      if(target != null)
+        target.StopCoroutine(routine_);
+    }
   }
 }
 {% endhighlight %} 
