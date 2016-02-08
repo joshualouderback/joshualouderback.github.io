@@ -79,8 +79,9 @@ public class ActionSequence : Action
     SetParent(manager);
     // And set our target as theirs
     target_ = manager.GetTarget();
-    // Add ourselves to them
-    AddAction(this);
+    // Very important to call the base class version, that way
+    // we don't end up adding it to ourselves
+    base.AddAction(this);
   }
 
   // Constructor binding the sequence to a game object
@@ -170,9 +171,16 @@ public class ActionGroup : Action
   // access each action without having to remove any.
   private List<Action> list = new List<Action>();
 
-  // Default Constructor
-  public ActionGroup()
+  // Non-Default Constructor
+  public ActionGroup(ActionManager manager)
   {
+    // Set our parent to them
+    SetParent(manager);
+    // And set our target as theirs
+    target_ = manager.GetTarget();
+    // Very important to call the base class version, that way
+    // we don't end up adding it to ourselves
+    base.AddAction(this);
   }
 
   // Restricts users to only be able to add Actions through constructors
