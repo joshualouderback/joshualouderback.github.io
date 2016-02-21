@@ -11,7 +11,7 @@ comments: true
 
 ### What are _Actions_? ###
 
-An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we wanted to rotate the asteroid while it traveled to b? Now, say we want the lights in the room the player is in to fade to black, and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
+An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player's ship and we wanted to rotate the asteroid while it traveled to b? Now, say we want the lights in the room the player is in to fade to black, let the room stay dark for a few seconds, and then follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.
 
 >
 

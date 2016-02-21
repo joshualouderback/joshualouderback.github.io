@@ -154,7 +154,7 @@
     <div class="article-wrap">
       <h3 id="what-are-actions">What are <em>Actions</em>?</h3>
 
-<p>An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player’s ship and we wanted to rotate the asteroid while it traveled to b? Now, say we want the lights in the room the player is in to fade to black, and once the room goes dark follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.</p>
+<p>An action can be thought of as an objective. For example, say you want to move an asteroid from a to b, that simply is an action. What if that position b is the player’s ship and we wanted to rotate the asteroid while it traveled to b? Now, say we want the lights in the room the player is in to fade to black, let the room stay dark for a few seconds, and then follow it with flashing red lights and alarm sounds. All of these things can simply be represented with actions to make scripting events simpler and faster than ever before. And I am going to show you how, so remember this scripted event because I will be referencing it throughout.</p>
 
 <blockquote>
 
@@ -216,7 +216,7 @@
 
   <span class="c1">/////// Virtual methods ///////</span>
   <span class="c1">// We only want to be able to add actions within constructors (more on this later)</span>
-	<span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="p">}</span>
+  <span class="k">protected</span> <span class="k">virtual</span> <span class="k">void</span> <span class="nf">AddAction</span><span class="p">(</span><span class="n">Action</span> <span class="n">action</span><span class="p">)</span> <span class="p">{</span> <span class="n">parent_</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="p">}</span>
   <span class="c1">// Marked virtual since children need to ask their parents, </span>
   <span class="c1">// but parents to need override for their own logic.</span>
   <span class="k">public</span> <span class="k">virtual</span> <span class="kt">bool</span> <span class="nf">IsPaused</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="n">parent_</span><span class="p">.</span><span class="n">IsPaused</span><span class="p">();</span> <span class="p">}</span>

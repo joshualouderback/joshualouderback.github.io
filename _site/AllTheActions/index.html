@@ -154,7 +154,141 @@
     <div class="article-wrap">
       <h3 id="all-the-actions">All The Actions</h3>
 
-<p>Coming soon…</p>
+<p>Now that we have everything we need to manage flow of our Actions, we need the Actions that actually let us do actions! The toolkit of Actions are really simple and that is what so great about Actions. We have Action Delays, which simply just waits for a specified time. Next is Action Calls, and they just call a single frame function. Then there are Action Routines, just in case we want a multi-frame function and why wouldn’t we?! Coroutines are awesome! Now let’s get on with it!</p>
+
+<h3 id="action-delay">Action Delay:</h3>
+
+<p>Action Delaying is really simple. All we want is a simple timer that waits until the set time is up. The only thing important to note here is that why didn’t we just utilize WaitForSeconds(duration)? If you don’t know what WaitForSeconds is, it is a YieldInstruction you can return that tells a Coroutine to yield for that duration. So again, why not? It encapsulates everything we want, and we don’t have to manage our own timer every frame… Well what happens when we pause? Nothing if we use WaitForSeconds because it won’t know until it is paused until after it returns from waiting the full duration we specified. That on it own competely destroys the reliablity we are trying to build with Actions. We want to be able to just code our logic without having to worry about edge cases, and using WaitForSeconds would cause users to have to be aware of that edge case. Since the goal is making life easier, we use our own timers rather than utilizing Coroutine functionality.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionDelay</span> <span class="p">:</span> <span class="n">Action</span>
+<span class="p">{</span>
+  <span class="k">private</span> <span class="kt">float</span> <span class="n">timeLeft_</span><span class="p">;</span> <span class="c1">// Time left to wait</span>
+
+  <span class="c1">// Constructor to add delay to manager and set timer</span>
+  <span class="k">public</span> <span class="nf">ActionDelay</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">,</span> <span class="kt">float</span> <span class="n">duration</span><span class="p">)</span> 
+  <span class="p">{</span> 
+    <span class="n">timeLeft_</span> <span class="p">=</span> <span class="n">duration</span><span class="p">;</span>
+    <span class="n">SetParent</span><span class="p">(</span><span class="n">manager</span><span class="p">);</span>
+    <span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Coroutine for updating delays</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerator</span> <span class="nf">Update</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// We have started running</span>
+    <span class="n">running_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// Delay until there is no time left to wait</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">timeLeft_</span> <span class="p">&gt;</span> <span class="m">0</span><span class="p">)</span>
+    <span class="p">{</span>
+      <span class="c1">// If we are not paused, decrement time</span>
+      <span class="k">if</span><span class="p">(!</span><span class="n">IsPaused</span><span class="p">())</span>
+        <span class="n">timeLeft_</span> <span class="p">-=</span> <span class="n">Time</span><span class="p">.</span><span class="n">deltaTime</span><span class="p">;</span>
+      <span class="c1">// yield until timer stops</span>
+      <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span> 
+    <span class="p">}</span>
+
+    <span class="c1">// Mark action as completed, and break yields</span>
+    <span class="n">completed_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>	
+<span class="p">}</span></code></pre></div>
+
+<h3 id="actioncall">ActionCall:</h3>
+
+<p>Action Calls are one of the biggest workers of the Action System. Here is where you will be writing the logic in the next step in your sequence, or logic that is meant to run simultaneously within it’s group. They can be simple things, for example calling a sound effect, or it can be the next step within some complex logic. Just remember that Action Calls are single frame functions. What I mean by this is that we call this function in our current frame, it runs the code and then leaves the function all in the same frame. This is important because our Action system expects to just call this function and move on, but if we have logic that is running off into the wild we have no idea what could happen! That is why we have Action Routines, for those multi-frame functions.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionCall</span> <span class="p">:</span> <span class="n">Action</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">delegate</span> <span class="k">void</span> <span class="nf">Function</span><span class="p">();</span> <span class="c1">// Delegates for ActionCall must be of this type</span>
+  <span class="k">private</span> <span class="n">Function</span> <span class="n">function_</span><span class="p">;</span>      <span class="c1">// Store the delegate the user attaches to this action</span>
+
+  <span class="c1">// Constructor, provide function for action call</span>
+  <span class="k">public</span> <span class="nf">ActionCall</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">,</span> <span class="n">Function</span> <span class="n">function</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">function_</span> <span class="p">=</span> <span class="n">function</span><span class="p">;</span>
+    <span class="n">SetParent</span><span class="p">(</span><span class="n">manager</span><span class="p">);</span>
+    <span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Coroutine that updates action calls</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerator</span> <span class="nf">Update</span> <span class="p">()</span> 
+  <span class="p">{</span>
+    <span class="c1">// We have started running</span>
+    <span class="n">running_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// While we are paused, wait</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">IsPaused</span><span class="p">())</span> 
+    <span class="p">{</span>
+      <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Activate single frame function </span>
+    <span class="n">function_</span><span class="p">();</span>
+    <span class="c1">// Mark as complete, and break yieldings</span>
+    <span class="n">completed_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+    <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>	
+<span class="p">}</span></code></pre></div>
+
+<p>One thing I would like to point out is that our ActionCall functions take nothing and return nothing. Why having no return type is quite obvious, since after the function is run it comes back to the Action System and what is it going to do with it? The Action System is generic and shouldn’t ever care about what happened in your function. Now I’ve only been using C# since for about 4 months when I wrote this system and could not find any good ways around this. From my understanding there are no variadic functions in C#, well the only option is use params object[] and I don’t like that. I didn’t want to require the user to have to remember how they laid out their parameters, which is error prone. Now if you are in C++ you can use the lovely std::function&lt;void()&gt; that allows you to pass in a functor with any number of parameters! Sadly there are also no functors within C# either, but I’ve seen some sources of people writing their own and will probably go back and do that when I am able. If anyone has any better solutions, I would love to know!</p>
+
+<h3 id="action-routine">Action Routine:</h3>
+
+<p>The only things different here from ActionCall is that we are require a Coroutine instead and that we need to override Cancel. Since we are creating another Coroutine we need the ActionRoutine to manage it, so that if we are cancelled it can end the routine it started as well as itself.</p>
+
+<div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionRoutine</span> <span class="p">:</span> <span class="n">Action</span>
+<span class="p">{</span>
+  <span class="k">public</span> <span class="k">delegate</span> <span class="n">IEnumerator</span> <span class="nf">Function</span><span class="p">();</span>
+  <span class="k">private</span> <span class="n">Function</span> <span class="n">function_</span><span class="p">;</span>
+  <span class="k">protected</span> <span class="n">Coroutine</span> <span class="n">actionRoutine_</span> <span class="p">=</span> <span class="k">null</span><span class="p">;</span>
+
+  <span class="k">public</span> <span class="nf">ActionRoutine</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">,</span> <span class="n">Function</span> <span class="n">function</span><span class="p">)</span>
+  <span class="p">{</span>
+    <span class="n">function_</span> <span class="p">=</span> <span class="n">function</span><span class="p">;</span>
+    <span class="n">SetParent</span><span class="p">(</span><span class="n">manager</span><span class="p">);</span>
+    <span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+  <span class="p">}</span>
+
+  <span class="k">public</span> <span class="k">override</span> <span class="k">void</span> <span class="nf">Cancel</span> <span class="p">()</span>
+  <span class="p">{</span>
+    <span class="c1">// Cancel the routine we started</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">parent_</span> <span class="p">!=</span> <span class="k">null</span> <span class="p">&amp;&amp;</span> <span class="n">actionRoutine_</span> <span class="p">!=</span> <span class="k">null</span><span class="p">)</span>
+      <span class="n">parent_</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">().</span><span class="n">StopCoroutine</span><span class="p">(</span><span class="n">actionRoutine_</span><span class="p">);</span>
+
+    <span class="c1">// Then call our base class to cancel ourselves</span>
+    <span class="k">base</span><span class="p">.</span><span class="n">Cancel</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Update is called once per frame</span>
+  <span class="k">public</span> <span class="k">override</span> <span class="n">IEnumerator</span> <span class="nf">Update</span> <span class="p">()</span> 
+  <span class="p">{</span>
+    <span class="c1">// We have started running</span>
+    <span class="n">running_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// While we are paused, wait</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">IsPaused</span><span class="p">())</span> 
+    <span class="p">{</span>
+      <span class="k">yield</span> <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="c1">// Wait until we return from the function</span>
+    <span class="n">actionRoutine_</span> <span class="p">=</span> <span class="n">parent_</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">().</span><span class="n">StartCoroutine</span><span class="p">(</span><span class="n">function_</span><span class="p">());</span>
+    <span class="k">yield</span> <span class="k">return</span> <span class="n">actionRoutine_</span><span class="p">;</span>
+    <span class="n">completed_</span> <span class="p">=</span> <span class="k">true</span><span class="p">;</span>
+
+    <span class="c1">// We are complete, break yielding</span>
+    <span class="k">yield</span> <span class="k">break</span><span class="p">;</span>
+  <span class="p">}</span>	
+<span class="p">}</span></code></pre></div>
+
+<p>Okay I lied about this article including all the Actions! The only Action we have left are ActionProperties, and they were the bane of my existence. I wanted to seperate them into their own article, so I could talk about how I ended up implementing them the way I did. It definitely was a journey!</p>
+
+<blockquote>
+
+</blockquote>
+
+<p><a href="http://joshualouderback.com/ActionProperties/">Continue to part 5. (Action Properties)</a></p>
 
       <hr />
       <footer role="contentinfo">

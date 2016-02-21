@@ -223,8 +223,9 @@
     <span class="n">SetParent</span><span class="p">(</span><span class="n">manager</span><span class="p">);</span>
     <span class="c1">// And set our target as theirs</span>
     <span class="n">target_</span> <span class="p">=</span> <span class="n">manager</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">();</span>
-    <span class="c1">// Add ourselves to them</span>
-    <span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
+    <span class="c1">// Very important to call the base class version, that way</span>
+    <span class="c1">// we don&#39;t end up adding it to ourselves</span>
+    <span class="k">base</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="c1">// Constructor binding the sequence to a game object</span>
@@ -312,9 +313,16 @@
   <span class="c1">// access each action without having to remove any.</span>
   <span class="k">private</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;</span> <span class="n">list</span> <span class="p">=</span> <span class="k">new</span> <span class="n">List</span><span class="p">&lt;</span><span class="n">Action</span><span class="p">&gt;();</span>
 
-  <span class="c1">// Default Constructor</span>
-  <span class="k">public</span> <span class="nf">ActionGroup</span><span class="p">()</span>
+  <span class="c1">// Non-Default Constructor</span>
+  <span class="k">public</span> <span class="nf">ActionGroup</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">)</span>
   <span class="p">{</span>
+    <span class="c1">// Set our parent to them</span>
+    <span class="n">SetParent</span><span class="p">(</span><span class="n">manager</span><span class="p">);</span>
+    <span class="c1">// And set our target as theirs</span>
+    <span class="n">target_</span> <span class="p">=</span> <span class="n">manager</span><span class="p">.</span><span class="n">GetTarget</span><span class="p">();</span>
+    <span class="c1">// Very important to call the base class version, that way</span>
+    <span class="c1">// we don&#39;t end up adding it to ourselves</span>
+    <span class="k">base</span><span class="p">.</span><span class="n">AddAction</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>
   <span class="p">}</span>
 
   <span class="c1">// Restricts users to only be able to add Actions through constructors</span>
