@@ -233,12 +233,14 @@ t = currentTime / duration
 
 <div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">abstract</span> <span class="k">class</span> <span class="nc">ActionProperty</span><span class="p">&lt;</span><span class="n">T</span><span class="p">&gt;</span> <span class="p">:</span> <span class="n">Action</span>
 <span class="p">{</span>
-  <span class="k">public</span> <span class="k">delegate</span> <span class="k">void</span> <span class="nf">Settor</span><span class="p">(</span><span class="n">T</span> <span class="n">newValue</span><span class="p">);</span>              <span class="c1">// Format of our settor delegate</span>
-  <span class="k">protected</span> <span class="n">EasesAndCurves</span><span class="p">.</span><span class="n">EaseFunction</span> <span class="n">easeFunction_</span><span class="p">;</span>	<span class="c1">// Reference to the ease function for type of interpolation</span>
-  <span class="k">protected</span> <span class="kt">float</span> <span class="n">duration_</span><span class="p">;</span>	                          <span class="c1">// How long the user wants to interpolate over</span>
-  <span class="k">protected</span> <span class="n">T</span> <span class="n">startValue_</span><span class="p">;</span>                              <span class="c1">// The start value</span>
-  <span class="k">protected</span> <span class="n">T</span> <span class="n">change_</span><span class="p">;</span>                                  <span class="c1">// The change we interpolate with</span>
-  <span class="k">protected</span> <span class="n">Settor</span> <span class="n">settor_</span><span class="p">;</span>                             <span class="c1">// Reference to the settor to call</span>
+  <span class="c1">// Format of our settor delegate</span>
+  <span class="k">public</span> <span class="k">delegate</span> <span class="k">void</span> <span class="nf">Settor</span><span class="p">(</span><span class="n">T</span> <span class="n">newValue</span><span class="p">);</span>    
+  <span class="c1">// Reference to the ease function for type of interpolation</span>
+  <span class="k">protected</span> <span class="n">EasesAndCurves</span><span class="p">.</span><span class="n">EaseFunction</span> <span class="n">easeFunction_</span><span class="p">;</span>  
+  <span class="k">protected</span> <span class="kt">float</span> <span class="n">duration_</span><span class="p">;</span>    <span class="c1">// How long the user wants to interpolate over</span>
+  <span class="k">protected</span> <span class="n">T</span> <span class="n">startValue_</span><span class="p">;</span>      <span class="c1">// The start value</span>
+  <span class="k">protected</span> <span class="n">T</span> <span class="n">change_</span><span class="p">;</span>          <span class="c1">// The change we interpolate with</span>
+  <span class="k">protected</span> <span class="n">Settor</span> <span class="n">settor_</span><span class="p">;</span>     <span class="c1">// Reference to the settor to call</span>
   
   <span class="c1">// Our abstract functions that need to be overrided to support generic update code</span>
   <span class="k">public</span> <span class="k">abstract</span> <span class="n">T</span> <span class="nf">Add</span><span class="p">(</span><span class="n">T</span> <span class="n">interpolated</span><span class="p">,</span> <span class="n">T</span> <span class="n">start</span><span class="p">);</span>
@@ -284,8 +286,8 @@ t = currentTime / duration
 
 <div class="highlight"><pre><code class="language-c#" data-lang="c#"><span class="k">public</span> <span class="k">class</span> <span class="nc">ActionPropertyVec4</span> <span class="p">:</span> <span class="n">ActionProperty</span><span class="p">&lt;</span><span class="n">Vector4</span><span class="p">&gt;</span>
 <span class="p">{</span>
-  <span class="k">public</span> <span class="nf">ActionPropertyVec4</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">,</span> <span class="n">Vector4</span> <span class="n">startValue</span><span class="p">,</span> <span class="n">Vector4</span> <span class="n">endValue</span><span class="p">,</span> <span class="kt">float</span> <span class="n">duration</span><span class="p">,</span> <span class="n">EasesAndCurves</span><span class="p">.</span><span class="n">Eases</span> <span class="n">ease</span><span class="p">,</span> 
-                            <span class="n">Settor</span> <span class="n">settor</span><span class="p">)</span>
+  <span class="k">public</span> <span class="nf">ActionPropertyVec4</span><span class="p">(</span><span class="n">ActionManager</span> <span class="n">manager</span><span class="p">,</span> <span class="n">Vector4</span> <span class="n">startValue</span><span class="p">,</span> <span class="n">Vector4</span> <span class="n">endValue</span><span class="p">,</span> 
+                            <span class="kt">float</span> <span class="n">duration</span><span class="p">,</span> <span class="n">EasesAndCurves</span><span class="p">.</span><span class="n">Eases</span> <span class="n">ease</span><span class="p">,</span> <span class="n">Settor</span> <span class="n">settor</span><span class="p">)</span>
   <span class="p">{</span>
     <span class="c1">// Set the starting value</span>
     <span class="n">startValue_</span> <span class="p">=</span> <span class="n">startValue</span><span class="p">;</span>
@@ -488,6 +490,22 @@ t = currentTime / duration
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
 <script src="/assets/js/scripts.min.js"></script>
+
+<!-- Asynchronous Google Analytics snippet -->
+<script>
+  var _gaq = _gaq || [];
+  var pluginUrl =
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-74044890-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
 
 
   

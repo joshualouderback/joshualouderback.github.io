@@ -79,12 +79,14 @@ Here it is, in all its glory! I would of loved to make this not as redudant, so 
 {% highlight c# %} 
 public abstract class ActionProperty<T> : Action
 {
-  public delegate void Settor(T newValue);              // Format of our settor delegate
-  protected EasesAndCurves.EaseFunction easeFunction_;	// Reference to the ease function for type of interpolation
-  protected float duration_;	                          // How long the user wants to interpolate over
-  protected T startValue_;                              // The start value
-  protected T change_;                                  // The change we interpolate with
-  protected Settor settor_;                             // Reference to the settor to call
+  // Format of our settor delegate
+  public delegate void Settor(T newValue);    
+  // Reference to the ease function for type of interpolation
+  protected EasesAndCurves.EaseFunction easeFunction_;  
+  protected float duration_;    // How long the user wants to interpolate over
+  protected T startValue_;      // The start value
+  protected T change_;          // The change we interpolate with
+  protected Settor settor_;     // Reference to the settor to call
   
   // Our abstract functions that need to be overrided to support generic update code
   public abstract T Add(T interpolated, T start);
@@ -132,8 +134,8 @@ Here is an example of one of the ActionProperty extension classes. To make any o
 {% highlight c# %} 
 public class ActionPropertyVec4 : ActionProperty<Vector4>
 {
-  public ActionPropertyVec4(ActionManager manager, Vector4 startValue, Vector4 endValue, float duration, EasesAndCurves.Eases ease, 
-                            Settor settor)
+  public ActionPropertyVec4(ActionManager manager, Vector4 startValue, Vector4 endValue, 
+                            float duration, EasesAndCurves.Eases ease, Settor settor)
   {
     // Set the starting value
     startValue_ = startValue;
