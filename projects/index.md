@@ -41,3 +41,40 @@ A two player cooperative game, about sneaking through a ghost filled house to fi
 * Integrated AntTweakBar into the level editor, in order to manage all editor interactions.
 * Implemented a robust GUI system that manged adding, interacting and removing layers through events.
 * Supported creation of GUI elements within the editor, so you never had to touch menu code ever again!
+
+---
+
+### _Knightfall_ (Freshman) ###
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yR2JfbdTnJM" frameborder="0" allowfullscreen></iframe>
+
+>**_Knightfall_**, is a randomly generated platformer, where players explore the many levels of Castle Knightfall, in order to obtain as much treasure as possible! Beware vistors, for you only have so much health, and once you die, you must start all over! Do not fear, a trusty gem lies within every floor, and when it is delievered to the next floor, it grants you life and more rewards! Use your magical punches to punch and telekinesis to throw the gem throughout the levels. Don't forget you can do that to your enemies too! And use your nimbus cloud to fly yourself throughout the castle and around it's many traps! Good luck!
+
+**Role\: Game Programmer**
+**Contributions**
+
+* Built the random level generator, that constructs trillions of level combinations.
+* Designed every room that goes into the random level generator.
+* Developed the design, mechanics and overall vision of the game.
+* Converted it from a classic roguelike movement based game into real-time platformer in a weekend.
+* Implemented all of the gameplay and fine-tuned the platforming. 
+
+[Click To Go To Download](https://drive.google.com/file/d/0B6VQ2J1VMEjHR0VQVFg0U0pkQ0U/edit)
+
+---
+
+### _There Can Only Be On Ninja_ (Ludum Dare 28) ###
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RRsR_DTW6JI" frameborder="0" allowfullscreen></iframe>
+
+>**_TCOBON_**, is a four player, local multiplayer versus game made during Ludum Dare 28 in 72 hours! This was actually only our second game we have ever made. The theme was "You can only get one". Inspired by that, we made a versus game where there was only one weapon, the shuriken! Player with the lowest score will start with the shuriken, or it will randomly select the from the lowest if there is a tie. Once the shuriken hits any walls it is safe to pick up, or if you want to try your luck you can try catching it. Note when the shuriken hits a player it stops and sits there, so when a player attempts to catch it they also create a smoke cloud. Anytime a player dies they create a smoke cloud, and this allows the players to fake dying and juke out unexpecting players if they successfully catch it! 
+
+**Role\: Game Programmer**
+**Contributions**
+
+* Designed the concept, fleshed out the mechanics and came up with fake death!
+* Implemented all gameplay mechanics and player controllers.
+* Built the scoring system and score menus.
+
+[Click here for Ludum Dare link](http://ludumdare.com/compo/ludum-dare-28/?action=preview&uid=21804)
+
