@@ -42,6 +42,8 @@ A two player cooperative game, about sneaking through a ghost filled house to fi
 * Implemented a robust GUI system that manged adding, interacting and removing layers through events.
 * Supported creation of GUI elements within the editor, so you never had to touch menu code ever again!
 
+[Click To Go To Download](https://drive.google.com/file/d/0B6VQ2J1VMEjHcXVtR0J0WjZBOGM/view?usp=sharing)
+
 ---
 
 ### _Knightfall_ (Freshman) ###
@@ -59,7 +61,7 @@ A two player cooperative game, about sneaking through a ghost filled house to fi
 * Converted it from a classic roguelike movement based game into real-time platformer in a weekend.
 * Implemented all of the gameplay and fine-tuned the platforming. 
 
-[Click To Go To Download](https://drive.google.com/file/d/0B6VQ2J1VMEjHR0VQVFg0U0pkQ0U/edit)
+[Click To Go To Download](https://drive.google.com/file/d/0B6VQ2J1VMEjHR0VQVFg0U0pkQ0U/view?usp=sharing)
 
 ---
 
