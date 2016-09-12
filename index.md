@@ -8,8 +8,10 @@ modified: 2014-08-08T20:53:07.573882-04:00
 Hello there! My name is Joshua Louderback and currently I am enrolled in the _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ degree at DigiPen Institute Of Technology. Here are some of the current major highlights in my life:
 
 * Currently in the middle of my last semester as a Junior!
-* Expecting to graduate in December 2016, if I get a summer internship.
-* Working on a HTC Vive VR project in Unity for my student project as Technical Director.
+* Expecting to graduate in April 2017.
+* Worked on a HTC Vive VR project in Unity for my student project as Technical Director (Team of 6).
+* Spent the summer of 2016 interning at Treyarch Studios as a Networking Engineer.
+* Working on a 3rd Person Puzzle Platformer in Unreal as Technical Director (Team of 12). 
 
 ### My Passion ###
 
