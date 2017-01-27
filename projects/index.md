@@ -4,6 +4,10 @@ excerpt: "The Portfolio And Blog Of Joshua Louderback."
 tags: [DigiPen, Unity, SteamVR, Vive, blog, Hereafter, Polterheist]
 ---
 
+# Student Projects
+
+---
+
 ### _Hereafter_ (Junior) ###
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/SVm03hqgtMw" frameborder="0" allowfullscreen></iframe>
