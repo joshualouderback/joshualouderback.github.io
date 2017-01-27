@@ -9,11 +9,9 @@ Hello there! My name is Joshua Louderback and currently I am enrolled in the _Ba
 
 * Graduating May 1st 2017!
 * Developing a solo project in Unity utilizing AWS for player verification and progression storage for a FPS with RPG elements.
-* Worked on a 3rd-person puzzle platformer in Unreal 4 for my final project as the Technical Director (Team of 12). 
+* Worked on a 3rd-person puzzle platformer in Unreal 4 for my final school project as the Technical Director (Team of 5). 
 * Spent the summer of 2016 interning at Treyarch Studios as a Networking Engineer.
-* Worked on a HTC Vive VR project in Unity for my Junior year student project as the Technical Director (Team of 6).
-
-
+* Completed a HTC Vive VR project in Unity for my Junior year student project as the Technical Director (Team of 6).
 
 ### My Passion ###
 
