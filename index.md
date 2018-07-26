@@ -5,13 +5,7 @@ tags: [about, Jekyll, theme, responsive]
 modified: 2014-08-08T20:53:07.573882-04:00
 ---
 
-Hello there! My name is Joshua Louderback and currently I am enrolled in the _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ degree at DigiPen Institute Of Technology. Here are some of the current major highlights in my life:
-
-* Graduating May 1st 2017!
-* Developing a solo project in Unity utilizing AWS for player verification and progression storage for a FPS with RPG elements.
-* Worked on a 3rd-person puzzle platformer in Unreal 4 for my final school project as the Technical Director (Team of 5). 
-* Spent the summer of 2016 interning at Treyarch Studios as a Networking Engineer.
-* Completed a HTC Vive VR project in Unity for my Junior year student project as the Technical Director (Team of 6).
+Hello there! My name is Joshua Louderback and currently working at Treyarch as an Associate Online Engineer on _Call of Duty: Black Ops 4_. I graduated May 2017 with a  _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ at DigiPen Institute Of Technology. 
 
 ### My Passion ###
 
