@@ -5,7 +5,7 @@ tags: [about, Jekyll, theme, responsive]
 modified: 2014-08-08T20:53:07.573882-04:00
 ---
 
-Hello there! My name is Joshua Louderback and currently working at Treyarch as an Associate Online Engineer on _Call of Duty: Black Ops 4_. I graduated May 2017 with a  _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ at DigiPen Institute Of Technology. 
+Hello there! My name is Joshua Louderback and I'm currently working at Treyarch as an Associate Online Engineer on _Call of Duty: Black Ops 4_. I graduated May 2017 with a _Bachelors Of Science of Computer Science in Real Time Interactive Simulation_ from DigiPen Institute Of Technology. 
 
 ### My Passion ###
 
